@@ -1,7 +1,7 @@
 ﻿using System.IO;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 
 namespace App
 {
@@ -10,29 +10,15 @@ namespace App
         public static void Main()
         {
             string connectionString = GetConnectionString();
-            ILoggerFactory loggerFactory = CreateLoggerFactory();
 
-            var optionsBuilder = new DbContextOptionsBuilder<SchoolContext>();
-            optionsBuilder
-                .UseSqlServer(connectionString)
-                .UseLoggerFactory(loggerFactory)
-                .EnableSensitiveDataLogging();
-
-            using (var context = new SchoolContext(optionsBuilder.Options))
+            using (var context = new SchoolContext(connectionString, true))
             {
-                Student student = context.Students.Find(1L);
+                //Student student = context.Students.Find(1L);
+
+                Student student = context.Students
+                    .Include(x => x.FavoriteCourse)
+                    .SingleOrDefault(x => x.Id == 1);
             }
-        }
-
-        private static ILoggerFactory CreateLoggerFactory()
-        {
-            return LoggerFactory.Create(builder =>
-            {
-                builder
-                    .AddFilter((category, level) =>
-                        category == DbLoggerCategory.Database.Command.Name && level == LogLevel.Information)
-                    .AddConsole();
-            });
         }
 
         private static string GetConnectionString()
