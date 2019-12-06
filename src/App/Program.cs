@@ -16,8 +16,10 @@ namespace App
                 //Student student = context.Students.Find(1L);
 
                 Student student = context.Students
-                    .Include(x => x.FavoriteCourse)
+                    //.Include(x => x.FavoriteCourse)
                     .SingleOrDefault(x => x.Id == 1);
+
+                student.StartProject();
             }
         }
 
