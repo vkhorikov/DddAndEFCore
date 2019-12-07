@@ -19,7 +19,6 @@ namespace App
                     //.Include(x => x.FavoriteCourse)
                     .SingleOrDefault(x => x.Id == 1);
 
-                student.StartProject();
             }
         }
 
