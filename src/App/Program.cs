@@ -13,12 +13,14 @@ namespace App
 
             using (var context = new SchoolContext(connectionString, true))
             {
-                //Student student = context.Students.Find(1L);
+                Student student = context.Students.Find(1L);
+                Course course = student.FavoriteCourse;
 
-                Student student = context.Students
-                    //.Include(x => x.FavoriteCourse)
-                    .SingleOrDefault(x => x.Id == 1);
+                Course course2 = context.Courses.SingleOrDefault(x => x.Id == 2);
 
+                bool boolean = course == course2;
+
+                bool boolean2 = course == Course.Chemistry;
             }
         }
 

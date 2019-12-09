@@ -1,8 +1,7 @@
 ﻿namespace App
 {
-    public class Student
+    public class Student : Entity
     {
-        public long Id { get; private set; }
         public string Name { get; }
         public string Email { get; }
         public virtual Course FavoriteCourse { get; }
