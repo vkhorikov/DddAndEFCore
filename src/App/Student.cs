@@ -1,10 +1,13 @@
-﻿namespace App
+﻿using System.Collections.Generic;
+
+namespace App
 {
     public class Student : Entity
     {
         public string Name { get; }
         public string Email { get; }
         public virtual Course FavoriteCourse { get; }
+        public virtual ICollection<Enrollment> Enrollments { get; set; }
 
         protected Student()
         {
