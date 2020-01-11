@@ -48,7 +48,8 @@ namespace App
                 x.Property(p => p.Email);
                 x.Property(p => p.Name);
                 x.HasOne(p => p.FavoriteCourse).WithMany();
-                x.HasMany(p => p.Enrollments).WithOne(p => p.Student);
+                x.HasMany(p => p.Enrollments).WithOne(p => p.Student)
+                    .Metadata.PrincipalToDependent.SetPropertyAccessMode(PropertyAccessMode.Field);
             });
             modelBuilder.Entity<Course>(x =>
             {

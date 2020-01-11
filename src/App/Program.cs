@@ -10,7 +10,7 @@ namespace App
     {
         public static void Main()
         {
-            string result2 = Execute(x => x.AddEnrollment(1, 2, Grade.A));
+            string result2 = Execute(x => x.EnrollStudent(1, 2, Grade.A));
             string result = Execute(x => x.CheckStudentFavoriteCourse(1, 2));
         }
 
@@ -21,11 +21,7 @@ namespace App
             using (var context = new SchoolContext(connectionString, true))
             {
                 var controller = new StudentController(context);
-                string result = func(controller);
-                
-                context.SaveChanges();
-
-                return result;
+                return func(controller);
             }
         }
 

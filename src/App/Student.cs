@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace App
 {
@@ -7,7 +8,9 @@ namespace App
         public string Name { get; }
         public string Email { get; }
         public virtual Course FavoriteCourse { get; }
-        public virtual ICollection<Enrollment> Enrollments { get; set; }
+
+        private readonly List<Enrollment> _enrollments = new List<Enrollment>();
+        public virtual IReadOnlyList<Enrollment> Enrollments => _enrollments.ToList();
 
         protected Student()
         {
@@ -19,6 +22,12 @@ namespace App
             Name = name;
             Email = email;
             FavoriteCourse = favoriteCourse;
+        }
+
+        public void EnrollIn(Course course, Grade grade)
+        {
+            var enrollment = new Enrollment(course, this, grade);
+            _enrollments.Add(enrollment);
         }
     }
 }
