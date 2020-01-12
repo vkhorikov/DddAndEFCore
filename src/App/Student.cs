@@ -34,5 +34,15 @@ namespace App
 
             return "OK";
         }
+
+        public void Disenroll(Course course)
+        {
+            Enrollment enrollment = _enrollments.FirstOrDefault(x => x.Course == course);
+
+            if (enrollment == null)
+                return;
+
+            _enrollments.Remove(enrollment);
+        }
     }
 }
