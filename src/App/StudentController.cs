@@ -1,19 +1,23 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace App
 {
     public sealed class StudentController
     {
         private readonly SchoolContext _context;
+        private readonly StudentRepository _repository;
 
         public StudentController(SchoolContext context)
         {
             _context = context;
+            _repository = new StudentRepository(context);
         }
 
         public string CheckStudentFavoriteCourse(long studentId, long courseId)
         {
-            Student student = _context.Students.Find(studentId);
+            Student student = _repository.GetById(studentId);
             if (student == null)
                 return "Student not found";
 
@@ -26,7 +30,7 @@ namespace App
 
         public string EnrollStudent(long studentId, long courseId, Grade grade)
         {
-            Student student = _context.Students.Find(studentId);
+            Student student = _repository.GetById(studentId);
             if (student == null)
                 return "Student not found";
 
@@ -34,11 +38,11 @@ namespace App
             if (course == null)
                 return "Course not found";
 
-            student.EnrollIn(course, grade);
+            string result = student.EnrollIn(course, grade);
 
             _context.SaveChanges();
 
-            return "OK";
+            return result;
         }
     }
 }
