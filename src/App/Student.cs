@@ -16,12 +16,15 @@ namespace App
         {
         }
 
-        public Student(string name, string email, Course favoriteCourse)
+        public Student(
+            string name, string email, Course favoriteCourse, Grade favoriteCourseGrade)
             : this()
         {
             Name = name;
             Email = email;
             FavoriteCourse = favoriteCourse;
+
+            EnrollIn(favoriteCourse, favoriteCourseGrade);
         }
 
         public string EnrollIn(Course course, Grade grade)
