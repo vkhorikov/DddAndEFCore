@@ -61,5 +61,25 @@ namespace App
 
             return "OK";
         }
+
+        public string RegisterStudent(string name, string email, long favoriteCourseId)
+        {
+            Course course = _context.Courses.Find(favoriteCourseId);
+
+            Course favoriteCourse = Course.FromId(favoriteCourseId);
+            if (favoriteCourse == null)
+                return "Course not found";
+
+            var student = new Student(name, email, course);
+
+            _context.Students.Add(student);
+
+            EntityState entityState1 = _context.Entry(student).State;
+            EntityState entityState2 = _context.Entry(student.FavoriteCourse).State;
+
+            _context.SaveChanges();
+
+            return "OK";
+        }
     }
 }
