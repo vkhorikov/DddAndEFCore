@@ -65,20 +65,12 @@ namespace App
         public string RegisterStudent(
             string name, string email, long favoriteCourseId, Grade favoriteCourseGrade)
         {
-            //Course course = _context.Courses.Find(favoriteCourseId);
-
             Course favoriteCourse = Course.FromId(favoriteCourseId);
             if (favoriteCourse == null)
                 return "Course not found";
 
             var student = new Student(name, email, favoriteCourse, favoriteCourseGrade);
-
-            _context.Students.Add(student);
-
-            EntityState entityState1 = _context.Entry(student).State;
-            EntityState entityState2 = _context.Entry(student.FavoriteCourse).State;
-            EntityState entityState3 = _context.Entry(student.Enrollments[0]).State;
-            EntityState entityState4 = _context.Entry(student.Enrollments[0].Course).State;
+            _repository.Save(student);
 
             _context.SaveChanges();
 
