@@ -5,9 +5,9 @@ namespace App
 {
     public class Student : Entity
     {
-        public string Name { get; }
-        public string Email { get; }
-        public virtual Course FavoriteCourse { get; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public virtual Course FavoriteCourse { get; set; }
 
         private readonly List<Enrollment> _enrollments = new List<Enrollment>();
         public virtual IReadOnlyList<Enrollment> Enrollments => _enrollments.ToList();

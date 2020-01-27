@@ -76,5 +76,25 @@ namespace App
 
             return "OK";
         }
+
+        public string EditPersonalInfo(
+            long studentId, string name, string email, long favoriteCourseId)
+        {
+            Student student = _repository.GetById(studentId);
+            if (student == null)
+                return "Student not found";
+
+            Course favoriteCourse = Course.FromId(favoriteCourseId);
+            if (favoriteCourse == null)
+                return "Course not found";
+
+            student.Name = name;
+            student.Email = email;
+            student.FavoriteCourse = favoriteCourse;
+
+            _context.SaveChanges();
+
+            return "OK";
+        }
     }
 }
