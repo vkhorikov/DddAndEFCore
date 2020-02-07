@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="CSharpFunctionalExtensions" Version="2.3.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0-preview3.19554.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="3.1.0-preview3.19554.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.0-preview3.19554.8" />

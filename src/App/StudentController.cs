@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace App
@@ -69,7 +70,11 @@ namespace App
             if (favoriteCourse == null)
                 return "Course not found";
 
-            var student = new Student(name, email, favoriteCourse, favoriteCourseGrade);
+            Result<Email> result = Email.Create(email);
+            if (result.IsFailure)
+                return result.Error;
+
+            var student = new Student(name, result.Value, favoriteCourse, favoriteCourseGrade);
             _repository.Save(student);
 
             _context.SaveChanges();
@@ -88,8 +93,12 @@ namespace App
             if (favoriteCourse == null)
                 return "Course not found";
 
+            Result<Email> result = Email.Create(email);
+            if (result.IsFailure)
+                return result.Error;
+
             student.Name = name;
-            student.Email = email;
+            student.Email = result.Value;
             student.FavoriteCourse = favoriteCourse;
 
             _context.SaveChanges();

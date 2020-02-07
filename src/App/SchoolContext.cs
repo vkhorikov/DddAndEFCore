@@ -47,7 +47,8 @@ namespace App
             {
                 x.ToTable("Student").HasKey(k => k.Id);
                 x.Property(p => p.Id).HasColumnName("StudentID");
-                x.Property(p => p.Email);
+                x.Property(p => p.Email)
+                    .HasConversion(p => p.Value, p => Email.Create(p).Value);
                 x.Property(p => p.Name);
                 x.HasOne(p => p.FavoriteCourse).WithMany();
                 x.HasMany(p => p.Enrollments).WithOne(p => p.Student)
