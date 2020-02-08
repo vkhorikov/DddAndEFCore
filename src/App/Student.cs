@@ -5,7 +5,7 @@ namespace App
 {
     public class Student : Entity
     {
-        public string Name { get; set; }
+        public virtual Name Name { get; set; }
         public Email Email { get; set; }
         public virtual Course FavoriteCourse { get; set; }
 
@@ -17,7 +17,7 @@ namespace App
         }
 
         public Student(
-            string name, Email email, Course favoriteCourse, Grade favoriteCourseGrade)
+            Name name, Email email, Course favoriteCourse, Grade favoriteCourseGrade)
             : this()
         {
             Name = name;

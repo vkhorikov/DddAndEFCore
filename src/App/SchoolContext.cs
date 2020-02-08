@@ -49,7 +49,11 @@ namespace App
                 x.Property(p => p.Id).HasColumnName("StudentID");
                 x.Property(p => p.Email)
                     .HasConversion(p => p.Value, p => Email.Create(p).Value);
-                x.Property(p => p.Name);
+                x.OwnsOne(p => p.Name, p =>
+                {
+                    p.Property(pp => pp.First).HasColumnName("FirstName");
+                    p.Property(pp => pp.Last).HasColumnName("LastName");
+                });
                 x.HasOne(p => p.FavoriteCourse).WithMany();
                 x.HasMany(p => p.Enrollments).WithOne(p => p.Student)
                     .OnDelete(DeleteBehavior.Cascade)

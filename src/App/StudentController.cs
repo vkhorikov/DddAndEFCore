@@ -74,8 +74,8 @@ namespace App
             if (result.IsFailure)
                 return result.Error;
 
-            var student = new Student(name, result.Value, favoriteCourse, favoriteCourseGrade);
-            _repository.Save(student);
+            //var student = new Student(name, result.Value, favoriteCourse, favoriteCourseGrade);
+            //_repository.Save(student);
 
             _context.SaveChanges();
 
@@ -97,7 +97,7 @@ namespace App
             if (result.IsFailure)
                 return result.Error;
 
-            student.Name = name;
+            //student.Name = name;
             student.Email = result.Value;
             student.FavoriteCourse = favoriteCourse;
 
