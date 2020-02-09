@@ -110,9 +110,7 @@ namespace App
             if (nameResult.IsFailure)
                 return nameResult.Error;
 
-            student.Name = nameResult.Value;
-            student.Email = emailResult.Value;
-            student.FavoriteCourse = favoriteCourse;
+            student.EditPersonalInfo(nameResult.Value, emailResult.Value, favoriteCourse);
 
             _context.SaveChanges();
 

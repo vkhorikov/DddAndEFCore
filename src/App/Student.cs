@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace App
 {
     public class Student : Entity
     {
-        public virtual Name Name { get; set; }
-        public Email Email { get; set; }
-        public virtual Course FavoriteCourse { get; set; }
+        public virtual Name Name { get; private set; }
+        public Email Email { get; private set; }
+        public virtual Course FavoriteCourse { get; private set; }
 
         private readonly List<Enrollment> _enrollments = new List<Enrollment>();
         public virtual IReadOnlyList<Enrollment> Enrollments => _enrollments.ToList();
@@ -46,6 +47,20 @@ namespace App
                 return;
 
             _enrollments.Remove(enrollment);
+        }
+
+        public void EditPersonalInfo(Name name, Email email, Course favoriteCourse)
+        {
+            if (name == null)
+                throw new ArgumentNullException();
+            if (email == null)
+                throw new ArgumentNullException();
+            if (favoriteCourse == null)
+                throw new ArgumentNullException();
+
+            Name = name;
+            Email = email;
+            FavoriteCourse = favoriteCourse;
         }
     }
 }
