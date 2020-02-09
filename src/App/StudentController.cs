@@ -64,18 +64,27 @@ namespace App
         }
 
         public string RegisterStudent(
-            string name, string email, long favoriteCourseId, Grade favoriteCourseGrade)
+            string firstName, string lastName, string email,
+            long favoriteCourseId, Grade favoriteCourseGrade)
         {
             Course favoriteCourse = Course.FromId(favoriteCourseId);
             if (favoriteCourse == null)
                 return "Course not found";
 
-            Result<Email> result = Email.Create(email);
-            if (result.IsFailure)
-                return result.Error;
+            Result<Email> emailResult = Email.Create(email);
+            if (emailResult.IsFailure)
+                return emailResult.Error;
 
-            //var student = new Student(name, result.Value, favoriteCourse, favoriteCourseGrade);
-            //_repository.Save(student);
+            Result<Name> nameResult = Name.Create(firstName, lastName);
+            if (nameResult.IsFailure)
+                return nameResult.Error;
+
+            var student = new Student(
+                nameResult.Value,
+                emailResult.Value,
+                favoriteCourse,
+                favoriteCourseGrade);
+            _repository.Save(student);
 
             _context.SaveChanges();
 
@@ -83,7 +92,7 @@ namespace App
         }
 
         public string EditPersonalInfo(
-            long studentId, string name, string email, long favoriteCourseId)
+            long studentId, string firstName, string lastName, string email, long favoriteCourseId)
         {
             Student student = _repository.GetById(studentId);
             if (student == null)
@@ -93,12 +102,16 @@ namespace App
             if (favoriteCourse == null)
                 return "Course not found";
 
-            Result<Email> result = Email.Create(email);
-            if (result.IsFailure)
-                return result.Error;
+            Result<Email> emailResult = Email.Create(email);
+            if (emailResult.IsFailure)
+                return emailResult.Error;
 
-            //student.Name = name;
-            student.Email = result.Value;
+            Result<Name> nameResult = Name.Create(firstName, lastName);
+            if (nameResult.IsFailure)
+                return nameResult.Error;
+
+            student.Name = nameResult.Value;
+            student.Email = emailResult.Value;
             student.FavoriteCourse = favoriteCourse;
 
             _context.SaveChanges();
