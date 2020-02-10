@@ -7,19 +7,21 @@ namespace App
     {
         public string First { get; }
         public string Last { get; }
+        public virtual Suffix Suffix { get; }
 
         protected Name()
         {
         }
 
-        private Name(string first, string last)
+        private Name(string first, string last, Suffix suffix)
             : this()
         {
             First = first;
             Last = last;
+            Suffix = suffix;
         }
 
-        public static Result<Name> Create(string firstName, string lastName)
+        public static Result<Name> Create(string firstName, string lastName, Suffix suffix)
         {
             if (string.IsNullOrWhiteSpace(firstName))
                 return Result.Failure<Name>("First name should not be empty");
@@ -34,13 +36,14 @@ namespace App
             if (lastName.Length > 200)
                 return Result.Failure<Name>("Last name is too long");
 
-            return Result.Success(new Name(firstName, lastName));
+            return Result.Success(new Name(firstName, lastName, suffix));
         }
 
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return First;
             yield return Last;
+            yield return Suffix;
         }
     }
 }
