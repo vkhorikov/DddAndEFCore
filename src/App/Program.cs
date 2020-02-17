@@ -10,7 +10,7 @@ namespace App
     {
         public static void Main()
         {
-            string result5 = Execute(x => x.EditPersonalInfo(13, "Carl 2", "Carlson 2", 2, "carl2@gmail.com", 1));
+            string result5 = Execute(x => x.EditPersonalInfo(13, "Carl 2", "Carlson 2", 2, "carl1@gmail.com", 1));
             //string result4 = Execute(x => x.RegisterStudent("Carl", "carl@gmail.com", 2, Grade.B));
             //string result3 = Execute(x => x.DisenrollStudent(1, 2));
             //string result = Execute(x => x.CheckStudentFavoriteCourse(1, 2));
@@ -21,7 +21,11 @@ namespace App
         {
             string connectionString = GetConnectionString();
 
-            using (var context = new SchoolContext(connectionString, true))
+            IBus bus = new Bus();
+            var messageBus = new MessageBus(bus);
+            var eventDispatcher = new EventDispatcher(messageBus);
+
+            using (var context = new SchoolContext(connectionString, true, eventDispatcher))
             {
                 var controller = new StudentController(context);
                 return func(controller);
